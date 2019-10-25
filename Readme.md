@@ -1,13 +1,14 @@
-Monitoring with Kibana
+# Docker Setup
 
-This is a repository to test an ELK environment with focus on monitoring with Kibana.
+This is Docker setup for Elasticsearch and the ELK stack, useful to demonstrate examples in a workshop.
 
 The following Docker containers are built
 
-* filebeat, typical for a micro service
-* redis as logbuffer
-* logindexer to ingest logs into ES
-* Elasticsearch node with Kibana installed
+* Elasticsearch instances (7.3), a three node cluster
+* Filebeat
+* Redis as logbuffer
+* Logindexer to ingest logs into ES
+* Kibana
 
 
 ## References
