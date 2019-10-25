@@ -1,0 +1,33 @@
+filebeat.config.inputs:
+  enabled: true
+
+filebeat.config:
+  modules:
+    path: ${path.config}/modules.d/*.yml
+    reload.enabled: false
+
+filebeat.inputs:
+- type: log
+  paths:
+    - /var/log/filebeat.log
+
+output.redis:
+  hosts:
+    - "redis:6379"
+  key: "filebeat"
+  keys:
+    - key: "blubb"
+      when.contains:
+        message: "BLUBB"
+  db: 0
+  timeout: 5
+
+setup.kibana.host: "kibana:5601"
+
+logging:
+  level: info
+  to_files: true
+  files:
+    path: /usr/share/filebeat/logs/
+    name: filebeat.log
+    keepfiles: 7

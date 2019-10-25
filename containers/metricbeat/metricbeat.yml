@@ -1,0 +1,35 @@
+name: redis-shipper
+
+tags: ["redis"]
+
+metricbeat.config.modules:
+  path: ${path.config}/conf.d/*.yml
+  reload.period: 10s
+  reload.enabled: true
+
+metricbeat.max_start_delay: 5s
+
+metricbeat.modules:
+- module: redis
+  metricsets: ["info", "keyspace"]
+  period: 5s
+  hosts: ["redis:6379"]
+
+output.elasticsearch:
+  hosts: ["http://elasticsearch01:9200", "http://elasticsearch02:9200"]
+
+# Elasticsearch templates
+# setup.template.name: "metricbeat"
+# setup.template.settings:
+#   index.number_of_shards: 2
+#   index.number_of_replicas: 1
+
+# Kibana runs separately from Elasticsearch node
+setup.kibana:
+  host: "kibana:5601"
+  protocol: "http"
+
+# activate Kibana dashboards
+setup.dashboards.enabled: true
+
+# TODO configure xpack settings

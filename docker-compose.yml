@@ -1,0 +1,159 @@
+version: "3.6"
+services:
+  app:
+    build:
+      context: containers/filebeat
+      dockerfile: Dockerfile
+    volumes:
+      - ./containers/filebeat:/app
+    depends_on:
+      - redis
+
+  curator:
+    build:
+      context: containers/curator
+      dockerfile: Dockerfile
+    container_name: curator
+    environment:
+      ELASTICSEARCH_HOST: elasticsearch01
+      ELASTICSEARCH_PORT: 9200
+    networks:
+      - esnet
+
+  redis:
+    build:
+      context: containers/redis
+      dockerfile: Dockerfile
+    ports:
+      - 6379:6379
+    networks:
+      - esnet
+
+  logindexer:
+    build:
+      context: containers/logindexer
+      dockerfile: Dockerfile
+    ports:
+      - 9600:9600
+    depends_on:
+      - elasticsearch01
+      - elasticsearch02
+    networks:
+      - esnet
+
+  elasticsearch01:
+    build:
+      context: containers/elasticsearch01
+      dockerfile: Dockerfile
+    container_name: elasticsearch01
+    volumes:
+      - esdata1:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+      - 9300:9300
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - cluster.routing.allocation.disk.threshold_enabled=false
+      - http.cors.enabled=true
+      - http.cors.allow-origin=*
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    networks:
+      - esnet
+
+  elasticsearch02:
+    build:
+      context: containers/elasticsearch02
+      dockerfile: Dockerfile
+    container_name: elasticsearch02
+    volumes:
+      - esdata2:/usr/share/elasticsearch/data
+    ports:
+      - 9201:9200
+      - 9301:9300
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - cluster.routing.allocation.disk.threshold_enabled=false
+      - http.cors.enabled=true
+      - http.cors.allow-origin=*
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    networks:
+      - esnet
+
+  elasticsearch03:
+    build:
+      context: containers/elasticsearch03
+      dockerfile: Dockerfile
+    container_name: elasticsearch03
+    volumes:
+      - esdata3:/usr/share/elasticsearch/data
+    ports:
+      - 9202:9200
+      - 9302:9300
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - cluster.routing.allocation.disk.threshold_enabled=false
+      - http.cors.enabled=true
+      - http.cors.allow-origin=*
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    networks:
+      - esnet
+
+  metricbeat:
+    build:
+      context: containers/metricbeat
+      dockerfile: Dockerfile
+    depends_on:
+      - redis
+    networks:
+      - esnet
+
+  cerebro:
+    build:
+      context: containers/cerebro
+      dockerfile: Dockerfile
+    container_name: cerebro
+    ports:
+      - 9000:9000
+    networks:
+      - esnet
+
+  kibana:
+    build:
+      context: containers/kibana
+      dockerfile: Dockerfile
+    container_name: kibana
+    ports:
+      - 5601:5601
+    environment:
+      - SERVER_NAME=kibana.local
+      - ELASTICSEARCH_URL=http://elasticsearch01:9200
+    depends_on:
+      - elasticsearch01
+    networks:
+      - esnet
+
+volumes:
+  esdata1:
+    driver: local
+  esdata2:
+    driver: local
+  esdata3:
+    driver: local
+
+networks:
+  esnet:

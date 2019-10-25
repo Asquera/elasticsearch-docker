@@ -1,0 +1,7 @@
+node.name: "logindexer01"
+
+http.host: "0.0.0.0"
+http.port: 9600
+
+xpack.monitoring.enabled: true
+xpack.monitoring.elasticsearch.hosts: ["http://elasticsearch01:9200"]

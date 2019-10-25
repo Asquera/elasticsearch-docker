@@ -1,0 +1,6 @@
+# This file is maintained via Docker
+server.port: 5601
+
+server.host: "0.0.0.0"
+
+elasticsearch.hosts: http://elasticsearch01:9200
