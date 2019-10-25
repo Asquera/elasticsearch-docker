@@ -4,11 +4,17 @@ This is Docker setup for Elasticsearch and the ELK stack, useful to demonstrate 
 
 The following Docker containers are built
 
-* Elasticsearch instances (7.3), a three node cluster
+* Elasticsearch instances (7.3), a three node cluster, accessible from host
+  * http://elasticsearch01:9200
+  * http://elasticsearch02:9200
+  * http://elasticsearch03:9200
 * Filebeat
 * Redis as logbuffer
-* Logindexer to ingest logs into ES
-* Kibana
+* Logstash to ingest logs into ES
+* [Kibana](localhost:5601)
+* [Cerebro](localhost:9000)
+
+For more details check `docker-compose.yml` configuration.
 
 
 ## References
@@ -20,7 +26,7 @@ The following Docker containers are built
 
 Run `docker-compose up`, wait until all Docker containers are built.
 
-The following list shows how to access different parts of the stack.
+The following services can be accessed via web browser.
 
 * [Kibana](http://localhost:5601)
 * [Cerebro](http://localhost:9000/#/overview?host=http:%2F%2Felasticsearch01:9200)
@@ -53,6 +59,7 @@ $ for i in {1..1000}; do echo "BLUBB HURRA\n" >> /var/log/filebeat.log; done
 ```
 
 all events are read from the `filebeat.log` log file and are send to Redis.
+
 
 ## Resources / Links
 
