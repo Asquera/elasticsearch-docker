@@ -2,9 +2,9 @@
 
 This is Docker setup for Elasticsearch and the ELK stack, useful to demonstrate examples in a workshop.
 
-The following Docker containers are built
+The following Docker containers are available
 
-* Elasticsearch instances (7.3), a three node cluster, accessible from host
+* Elasticsearch instances (7.8.1), a three node cluster, accessible from host, most examples only require first instance
   * http://elasticsearch01:9200
   * http://elasticsearch02:9200
   * http://elasticsearch03:9200
@@ -17,19 +17,31 @@ The following Docker containers are built
 For more details check `docker-compose.yml` configuration.
 
 
+## Setup
+
+This repository uses Docker to set up a local environment.
+
+* install [Docker](https://docs.docker.com/get-docker/) for your OS if not already present
+* alternatively run the examples in a VM or a local development environment
+
+Most examples require only a single Elasticsearch instance, therefore it's sufficient to start one instance and Cerebro to check the cluster.
+
+```bash
+docker-compose up --build elasticsearch01 cerebro
+```
+
+To start all containers at once (not advised) run `docker-compose up`, wait until all Docker containers are built.
+
+The following services can be accessed via web browser.
+
+* [Cerebro](http://localhost:9000/#/overview?host=http:%2F%2Felasticsearch01:9200)
+* [Kibana](http://localhost:5601) (when Docker container is built and started)
+
+
 ## References
 
 * [Elasticsearch Docker Setup](https://www.elastic.co/guide/en/elasticsearch/reference/7.3/docker.html)
 * [3 Node Elasticsearch Cluster with Docker](https://blog.ruanbekker.com/blog/2018/04/29/running-a-3-node-elasticsearch-cluster-with-docker-compose-on-your-laptop-for-testing/)
-
-## Setup
-
-Run `docker-compose up`, wait until all Docker containers are built.
-
-The following services can be accessed via web browser.
-
-* [Kibana](http://localhost:5601)
-* [Cerebro](http://localhost:9000/#/overview?host=http:%2F%2Felasticsearch01:9200)
 
 
 ## Tips

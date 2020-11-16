@@ -1,1 +1,1 @@
-FROM lmenezes/cerebro:0.8.3
+FROM lmenezes/cerebro:0.9.2
