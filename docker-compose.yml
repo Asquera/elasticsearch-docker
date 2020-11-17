@@ -77,53 +77,53 @@ services:
     networks:
       - esnet
 
-  elasticsearch02:
-    build:
-      context: containers/elasticsearch02
-      dockerfile: Dockerfile
-    container_name: elasticsearch02
-    volumes:
-      - esdata2:/usr/share/elasticsearch/data
-    ports:
-      - 9201:9200
-      - 9301:9300
-    environment:
-      - cluster.name=docker-cluster
-      - bootstrap.memory_lock=true
-      - cluster.routing.allocation.disk.threshold_enabled=false
-      - http.cors.enabled=true
-      - http.cors.allow-origin=*
-      - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    networks:
-      - esnet
+  # elasticsearch02:
+  #   build:
+  #     context: containers/elasticsearch02
+  #     dockerfile: Dockerfile
+  #   container_name: elasticsearch02
+  #   volumes:
+  #     - esdata2:/usr/share/elasticsearch/data
+  #   ports:
+  #     - 9201:9200
+  #     - 9301:9300
+  #   environment:
+  #     - cluster.name=docker-cluster
+  #     - bootstrap.memory_lock=true
+  #     - cluster.routing.allocation.disk.threshold_enabled=false
+  #     - http.cors.enabled=true
+  #     - http.cors.allow-origin=*
+  #     - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
+  #   ulimits:
+  #     memlock:
+  #       soft: -1
+  #       hard: -1
+  #   networks:
+  #     - esnet
 
-  elasticsearch03:
-    build:
-      context: containers/elasticsearch03
-      dockerfile: Dockerfile
-    container_name: elasticsearch03
-    volumes:
-      - esdata3:/usr/share/elasticsearch/data
-    ports:
-      - 9202:9200
-      - 9302:9300
-    environment:
-      - cluster.name=docker-cluster
-      - bootstrap.memory_lock=true
-      - cluster.routing.allocation.disk.threshold_enabled=false
-      - http.cors.enabled=true
-      - http.cors.allow-origin=*
-      - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    networks:
-      - esnet
+  # elasticsearch03:
+  #   build:
+  #     context: containers/elasticsearch03
+  #     dockerfile: Dockerfile
+  #   container_name: elasticsearch03
+  #   volumes:
+  #     - esdata3:/usr/share/elasticsearch/data
+  #   ports:
+  #     - 9202:9200
+  #     - 9302:9300
+  #   environment:
+  #     - cluster.name=docker-cluster
+  #     - bootstrap.memory_lock=true
+  #     - cluster.routing.allocation.disk.threshold_enabled=false
+  #     - http.cors.enabled=true
+  #     - http.cors.allow-origin=*
+  #     - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
+  #   ulimits:
+  #     memlock:
+  #       soft: -1
+  #       hard: -1
+  #   networks:
+  #     - esnet
 
   metricbeat:
     build:
