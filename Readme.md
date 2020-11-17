@@ -1,20 +1,51 @@
 # Docker Setup
 
-This is Docker setup for Elasticsearch and the ELK stack, useful to demonstrate examples in a workshop.
+This is a Docker setup for the Elastic stack, useful to demonstrate examples in a workshop.
 
-The following Docker containers are built
+The following Docker containers are available
 
-* Elasticsearch instances (7.3), a three node cluster, accessible from host
+* Elasticsearch instances (7.8.1), a three node cluster, accessible from host, most examples only require first instance
   * http://elasticsearch01:9200
   * http://elasticsearch02:9200
   * http://elasticsearch03:9200
-* Filebeat
-* Redis as logbuffer
-* Logstash to ingest logs into ES
-* [Kibana](localhost:5601)
 * [Cerebro](localhost:9000)
+* Curator (for index management)
+* Filebeat
+* [Kibana](localhost:5601)
+* Logstash to ingest logs into ES
+* Metricbeat
+* Redis (acts as a buffer between filebeat & logstash)
 
-For more details check `docker-compose.yml` configuration.
+For more details check `docker-compose.yml` configuration. Most examples in a workshop only require a single Elasticsearch node.
+
+
+## Setup
+
+This repository provides a Docker configuration to set up a local test environment.
+
+* install [Docker](https://docs.docker.com/get-docker/) for your OS if not already present
+* alternatively use a VM or install Elasticsearch locally on your system
+
+Most examples require only a single Elasticsearch instance, therefore it's sufficient to start one instance and Cerebro to check the cluster.
+
+```bash
+docker-compose up --build elasticsearch01 cerebro
+```
+
+The containers `cerebro` and `kibana` provide graphical interfaces into the Elasticsearch cluster.
+To start these run
+
+```bash
+docker-compose up -d --build cerebro kibana
+```
+
+These services can be accessed via web browser.
+
+* [Cerebro](http://localhost:9000/#/overview?host=http:%2F%2Felasticsearch01:9200)
+* [Kibana](http://localhost:5601) (when Docker container is built and started)
+
+**Note** Some examples may require to start other containers as well.
+To start these containers run `docker-compose up --build`, wait until all Docker containers are built.
 
 
 ## References
@@ -22,17 +53,8 @@ For more details check `docker-compose.yml` configuration.
 * [Elasticsearch Docker Setup](https://www.elastic.co/guide/en/elasticsearch/reference/7.3/docker.html)
 * [3 Node Elasticsearch Cluster with Docker](https://blog.ruanbekker.com/blog/2018/04/29/running-a-3-node-elasticsearch-cluster-with-docker-compose-on-your-laptop-for-testing/)
 
-## Setup
 
-Run `docker-compose up`, wait until all Docker containers are built.
-
-The following services can be accessed via web browser.
-
-* [Kibana](http://localhost:5601)
-* [Cerebro](http://localhost:9000/#/overview?host=http:%2F%2Felasticsearch01:9200)
-
-
-## Tips
+## Redis
 
 To check if the Redis instance is reachable, for example from within the filebeat / app docker container:
 

@@ -1,4 +1,4 @@
-FROM docker.elastic.co/beats/filebeat:7.3.2
+FROM docker.elastic.co/beats/filebeat:7.8.1
 
 RUN mkdir -p /usr/share/filebeat/logs
 
