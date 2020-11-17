@@ -5,16 +5,16 @@ This is a Docker setup for the Elastic stack, useful to demonstrate examples in 
 The following Docker containers are available
 
 * Elasticsearch instances (7.8.1), a three node cluster, accessible from host, most examples only require first instance
-  * http://elasticsearch01:9200
-  * http://elasticsearch02:9200
-  * http://elasticsearch03:9200
-* [Cerebro](localhost:9000)
-* Curator (for index management)
-* Filebeat
-* [Kibana](localhost:5601)
-* Logstash to ingest logs into ES
-* Metricbeat
-* Redis (acts as a buffer between filebeat & logstash)
+  * http://localhost:9200 (main)
+  * http://localhost:9201
+  * http://localhost:9202
+* [cerebro](http://localhost:9000/#/overview?host=http:%2F%2Felasticsearch01:9200)
+* curator (for index management)
+* filebeat (to generate logs)
+* [kibana](localhost:5601)
+* logindexer (Logstash to ingest logs into ES)
+* metricbeat (monitors redis)
+* redis (acts as a buffer between filebeat & logstash)
 
 For more details check `docker-compose.yml` configuration. Most examples in a workshop only require a single Elasticsearch node.
 
