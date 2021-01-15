@@ -1,0 +1,21 @@
+---
+actions:
+  1:
+    action: rollover
+    description: >-
+      Rollover the index associated with alias 'rollover', with format "rollover-00000x" or
+      using prefix-YYYY.MM.DD-1.
+    options:
+      # Alias name
+      name: rollover
+      conditions:
+        max_age: 2d
+        max_docs: 5
+        max_size: 100mb
+      extra_settings:
+        # some index settings can be set here
+        index.number_of_shards: 2
+        index.number_of_replicas: 1
+      timeout_override:
+      continue_if_exception: False
+      disable_action: False
