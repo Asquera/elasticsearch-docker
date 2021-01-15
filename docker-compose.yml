@@ -79,7 +79,6 @@ services:
       - node.attr.data=hot
       - node.attr.zone=zone1
       - node.name=elasticsearch01
-      - node.roles=data,ingest,master
       - path.repo=/usr/share/elasticsearch/repos
       - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
     ulimits:
@@ -114,7 +113,6 @@ services:
       - node.attr.data=warm
       - node.attr.zone=zone1
       - node.name=elasticsearch02
-      - node.roles=data,ingest,master
       - path.repo=/usr/share/elasticsearch/repos
       - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
     ulimits:
@@ -149,7 +147,6 @@ services:
       - node.attr.data=warm
       - node.attr.zone=zone2
       - node.name=elasticsearch03
-      - node.roles=data,ingest,master
       - path.repo=/usr/share/elasticsearch/repos
       - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
     ulimits:
