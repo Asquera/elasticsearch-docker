@@ -60,6 +60,7 @@ services:
     container_name: elasticsearch01
     volumes:
       - esdata1:/usr/share/elasticsearch/data
+      - esrepo:/usr/share/elasticsearch/repos
     ports:
       - 9200:9200
       - 9300:9300
@@ -67,8 +68,19 @@ services:
       - cluster.name=docker-cluster
       - bootstrap.memory_lock=true
       - cluster.routing.allocation.disk.threshold_enabled=false
-      - http.cors.enabled=true
-      - http.cors.allow-origin=*
+      # - http.cors.enabled=true
+      # - http.cors.allow-origin=*
+      - cluster.initial_master_nodes=elasticsearch01
+      - cluster.routing.allocation.awareness.attributes=zone
+      - cluster.routing.allocation.awareness.force.zone.values=zone1,zone2
+      - discovery.seed_hosts=elasticsearch01:9300
+      - network.host=0.0.0.0
+      # define hot node
+      - node.attr.data=hot
+      - node.attr.zone=zone1
+      - node.name=elasticsearch01
+      - node.roles=data,ingest,master
+      - path.repo=/usr/share/elasticsearch/repos
       - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
     ulimits:
       memlock:
@@ -77,53 +89,75 @@ services:
     networks:
       - esnet
 
-  # elasticsearch02:
-  #   build:
-  #     context: containers/elasticsearch02
-  #     dockerfile: Dockerfile
-  #   container_name: elasticsearch02
-  #   volumes:
-  #     - esdata2:/usr/share/elasticsearch/data
-  #   ports:
-  #     - 9201:9200
-  #     - 9301:9300
-  #   environment:
-  #     - cluster.name=docker-cluster
-  #     - bootstrap.memory_lock=true
-  #     - cluster.routing.allocation.disk.threshold_enabled=false
-  #     - http.cors.enabled=true
-  #     - http.cors.allow-origin=*
-  #     - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
-  #   ulimits:
-  #     memlock:
-  #       soft: -1
-  #       hard: -1
-  #   networks:
-  #     - esnet
+  elasticsearch02:
+    build:
+      context: containers/elasticsearch02
+      dockerfile: Dockerfile
+    container_name: elasticsearch02
+    volumes:
+      - esdata2:/usr/share/elasticsearch/data
+      - esrepo:/usr/share/elasticsearch/repos
+    ports:
+      - 9201:9200
+      - 9301:9300
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - cluster.routing.allocation.disk.threshold_enabled=false
+      - cluster.routing.allocation.awareness.attributes=zone
+      - cluster.routing.allocation.awareness.force.zone.values=zone1,zone2
+      - discovery.seed_hosts=elasticsearch01:9300
+      # - http.cors.enabled=true
+      # - http.cors.allow-origin=*
+      - network.host=0.0.0.0
+       # define warm node
+      - node.attr.data=warm
+      - node.attr.zone=zone1
+      - node.name=elasticsearch02
+      - node.roles=data,ingest,master
+      - path.repo=/usr/share/elasticsearch/repos
+      - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    networks:
+      - esnet
 
-  # elasticsearch03:
-  #   build:
-  #     context: containers/elasticsearch03
-  #     dockerfile: Dockerfile
-  #   container_name: elasticsearch03
-  #   volumes:
-  #     - esdata3:/usr/share/elasticsearch/data
-  #   ports:
-  #     - 9202:9200
-  #     - 9302:9300
-  #   environment:
-  #     - cluster.name=docker-cluster
-  #     - bootstrap.memory_lock=true
-  #     - cluster.routing.allocation.disk.threshold_enabled=false
-  #     - http.cors.enabled=true
-  #     - http.cors.allow-origin=*
-  #     - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
-  #   ulimits:
-  #     memlock:
-  #       soft: -1
-  #       hard: -1
-  #   networks:
-  #     - esnet
+  elasticsearch03:
+    build:
+      context: containers/elasticsearch03
+      dockerfile: Dockerfile
+    container_name: elasticsearch03
+    volumes:
+      - esdata3:/usr/share/elasticsearch/data
+      - esrepo:/usr/share/elasticsearch/repos
+    ports:
+      - 9202:9200
+      - 9302:9300
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - cluster.routing.allocation.disk.threshold_enabled=false
+      - cluster.routing.allocation.awareness.attributes=zone
+      - cluster.routing.allocation.awareness.force.zone.values=zone1,zone2
+      - discovery.seed_hosts=elasticsearch01:9300
+      # - http.cors.enabled=true
+      # - http.cors.allow-origin=*
+      - network.host=0.0.0.0
+       # define another warm node
+      - node.attr.data=warm
+      - node.attr.zone=zone2
+      - node.name=elasticsearch03
+      - node.roles=data,ingest,master
+      - path.repo=/usr/share/elasticsearch/repos
+      - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    networks:
+      - esnet
 
   metricbeat:
     build:
@@ -166,6 +200,8 @@ volumes:
   esdata2:
     driver: local
   esdata3:
+    driver: local
+  esrepo:
     driver: local
 
 networks:
