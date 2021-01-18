@@ -5,17 +5,9 @@ node.master: true
 node.data: true
 node.ingest: true
 
-path.repo: /tmp
-path.data: /usr/share/elasticsearch/data
-
-# See https://www.elastic.co/guide/en/elasticsearch/reference/7.0/modules-discovery-bootstrap-cluster.html
-# for more details
-discovery.seed_hosts:
-  - elasticsearch01:9300
-  # - elasticsearch02:9300
-  # - elasticsearch03:9300
-
 cluster.initial_master_nodes:
   - elasticsearch01
-  # - elasticsearch02
-  # - elasticsearch03
+
+# define hot node
+node.attr.data: hot
+node.attr.zone: zone1

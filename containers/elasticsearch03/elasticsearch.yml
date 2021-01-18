@@ -1,18 +1,15 @@
 network.host: 0.0.0.0
 
 node.name: elasticsearch03
-node.master: true
+node.master: false
 node.data: true
 node.ingest: true
 
-path.data: /usr/share/elasticsearch/data
+cluster.initial_master_nodes:
+  - elasticsearch01
 
 discovery.seed_hosts:
-  - elasticsearch01:9300
-#  - elasticsearch02:9300
-#  - elasticsearch03:9300
+  - elasticsearch01
 
-# cluster.initial_master_nodes:
-#   - elasticsearch01
-#   - elasticsearch02
-#   - elasticsearch03
+node.attr.data: warm
+node.attr.zone: zone2
