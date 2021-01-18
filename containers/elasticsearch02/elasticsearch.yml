@@ -8,5 +8,8 @@ node.ingest: true
 cluster.initial_master_nodes:
   - elasticsearch01
 
+discovery.seed_hosts:
+  - elasticsearch01
+
 node.attr.data: warm
 node.attr.zone: zone1

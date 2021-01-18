@@ -5,9 +5,9 @@ This is a Docker setup for the Elastic stack, useful to demonstrate examples in 
 The following Docker containers are available
 
 * Elasticsearch instances (7.8.1), a three node cluster, accessible from host, most examples only require first instance
-  * http://localhost:9200 (main)
-  * http://localhost:9201
-  * http://localhost:9202
+  * http://localhost:9200 (master, data)
+  * http://localhost:9201 (data)
+  * http://localhost:9202 (data)
 * [cerebro](http://localhost:9000/#/overview?host=http:%2F%2Felasticsearch01:9200)
 * curator (for index management)
 * filebeat (to generate logs)
@@ -17,6 +17,8 @@ The following Docker containers are available
 * redis (acts as a buffer between filebeat & logstash)
 
 For more details check `docker-compose.yml` configuration. Most examples in a workshop only require a single Elasticsearch node.
+
+> The main reason that `elasticsearch01` is the *only* `master` node is that it allows to start this container as a single node cluster. When starting containers `elasticsearch02` and `elasticsearch03` afterwards it does not set the *minimum* of master nodes from `1` to `2`. This is mainly for presentation purposes and is not recommended in a **production** environment where all instances in a 3 nodes cluster should have the `master` role.
 
 
 ## Setup
@@ -44,12 +46,27 @@ These services can be accessed via web browser.
 * [Cerebro](http://localhost:9000/#/overview?host=http:%2F%2Felasticsearch01:9200)
 * [Kibana](http://localhost:5601) (when Docker container is built and started)
 
-**Note** Some examples may require to start other containers as well.
-To start these containers run `docker-compose up --build`, wait until all Docker containers are built.
+> **!** Some examples may require to start other containers as well.
+
+For example to start all 3 Elasticsearch nodes as a cluster run
+
+```bash
+docker-compose up -d --build elasticsearch01 elasticsearch02 elasticsearch03
+```
+
+To remove all containers and their volumes use the following Docker Compose command:
+
+```bash
+docker-compose down -v --remove-orphans
+```
+
+> This removes all Docker containers and all the data folders defined in the `docker-compose.yml`. This is useful when the cluster has seen at least one additional *master* node and may not start as a single node cluster afterwards.
 
 
 ## References
 
+* [Elasticsearch Bootstrapping a Cluster](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-discovery-bootstrap-cluster.html)
+* [Elasticsearch Resilience in Small Clusters](https://www.elastic.co/guide/en/elasticsearch/reference/current/high-availability-cluster-small-clusters.html)
 * [Elasticsearch Docker Setup](https://www.elastic.co/guide/en/elasticsearch/reference/7.3/docker.html)
 * [3 Node Elasticsearch Cluster with Docker](https://blog.ruanbekker.com/blog/2018/04/29/running-a-3-node-elasticsearch-cluster-with-docker-compose-on-your-laptop-for-testing/)
 
