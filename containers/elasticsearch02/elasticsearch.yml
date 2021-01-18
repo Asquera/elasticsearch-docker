@@ -1,7 +1,7 @@
 network.host: 0.0.0.0
 
 node.name: elasticsearch02
-node.master: true
+node.master: false
 node.data: true
 node.ingest: true
 
@@ -12,7 +12,8 @@ discovery.seed_hosts:
 #  - elasticsearch02:9300
 #  - elasticsearch03:9300
 
-#cluster.initial_master_nodes:
-#  - elasticsearch01
-#  - elasticsearch02
-#  - elasticsearch03
+cluster.initial_master_nodes:
+  - elasticsearch01
+
+node.attr.data: warm
+node.attr.zone: zone1
