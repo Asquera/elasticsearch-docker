@@ -5,13 +5,8 @@ node.master: true
 node.data: true
 node.ingest: true
 
-path.data: /usr/share/elasticsearch/data
-
-# discovery.seed_hosts:
-#   - elasticsearch01:9300
-
 cluster.initial_master_nodes:
-  - elasticsearch01:9200
+  - elasticsearch01
 
 # define hot node
 node.attr.data: hot

@@ -73,6 +73,7 @@ services:
       - cluster.routing.allocation.disk.threshold_enabled=false
       - cluster.routing.allocation.awareness.attributes=zone
       - cluster.routing.allocation.awareness.force.zone.values=zone1,zone2
+      - path.data=/usr/share/elasticsearch/data
       - path.repo=/usr/share/elasticsearch/repos
       - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
     ulimits:
@@ -101,6 +102,7 @@ services:
       - cluster.routing.allocation.disk.threshold_enabled=false
       - cluster.routing.allocation.awareness.attributes=zone
       - cluster.routing.allocation.awareness.force.zone.values=zone1,zone2
+      - path.data=/usr/share/elasticsearch/data
       - path.repo=/usr/share/elasticsearch/repos
       - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
     ulimits:
@@ -129,6 +131,7 @@ services:
       - cluster.routing.allocation.disk.threshold_enabled=false
       - cluster.routing.allocation.awareness.attributes=zone
       - cluster.routing.allocation.awareness.force.zone.values=zone1,zone2
+      - path.data=/usr/share/elasticsearch/data
       - path.repo=/usr/share/elasticsearch/repos
       - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
     ulimits:

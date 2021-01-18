@@ -5,13 +5,6 @@ node.master: false
 node.data: true
 node.ingest: true
 
-path.data: /usr/share/elasticsearch/data
-
-discovery.seed_hosts:
-  - elasticsearch01:9300
-#  - elasticsearch02:9300
-#  - elasticsearch03:9300
-
 cluster.initial_master_nodes:
   - elasticsearch01
 
