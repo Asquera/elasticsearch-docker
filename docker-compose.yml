@@ -94,8 +94,8 @@ services:
       - esdata2:/usr/share/elasticsearch/data
       - esrepo:/usr/share/elasticsearch/repos
     ports:
-      - 9201:9200
-      - 9301:9300
+      - 127.0.0.1:9201:9200
+      - 127.0.0.1:9301:9300
     environment:
       - cluster.name=docker-cluster
       - bootstrap.memory_lock=true
