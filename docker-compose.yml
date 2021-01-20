@@ -6,6 +6,8 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./containers/filebeat:/app
+    ports:
+      - 127.0.0.1:5044:5044
     depends_on:
       - redis
     networks:
