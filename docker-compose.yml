@@ -27,28 +27,28 @@ services:
       context: containers/redis
       dockerfile: Dockerfile
     ports:
-      - 6379:6379
+      - 127.0.0.1:6379:6379
     networks:
       - esnet
 
-  postgres:
-    image: "postgres:11.6"
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      PGDATA: /var/lib/postgresql/data/pgdata
-    restart: always
-    volumes:
-      - pgdata:/var/lib/postgresql/data
+#  postgres:
+#    image: "postgres:11.6"
+#    ports:
+#      - 127.0.0.1:5432:5432
+#    environment:
+#      POSTGRES_USER: postgres
+#      POSTGRES_PASSWORD: postgres
+#      PGDATA: /var/lib/postgresql/data/pgdata
+#    restart: always
+#    volumes:
+#      - pgdata:/var/lib/postgresql/data
 
   logindexer:
     build:
       context: containers/logindexer
       dockerfile: Dockerfile
     ports:
-      - 9600:9600
+      - 127.0.0.1:9600:9600
     depends_on:
       - elasticsearch01
       - elasticsearch02
@@ -64,8 +64,8 @@ services:
       - esdata1:/usr/share/elasticsearch/data
       - esrepo:/usr/share/elasticsearch/repos
     ports:
-      - 9200:9200
-      - 9300:9300
+      - 127.0.0.1:9200:9200
+      - 127.0.0.1:9300:9300
     environment:
       - cluster.name=docker-cluster
       - bootstrap.memory_lock=true
@@ -123,8 +123,8 @@ services:
       - esdata3:/usr/share/elasticsearch/data
       - esrepo:/usr/share/elasticsearch/repos
     ports:
-      - 9202:9200
-      - 9302:9300
+      - 127.0.0.1:9202:9200
+      - 127.0.0.1:9302:9300
     environment:
       - cluster.name=docker-cluster
       - bootstrap.memory_lock=true
@@ -158,7 +158,7 @@ services:
       dockerfile: Dockerfile
     container_name: cerebro
     ports:
-      - 9000:9000
+      - 127.0.0.1:9000:9000
     networks:
       - esnet
 
@@ -168,7 +168,7 @@ services:
       dockerfile: Dockerfile
     container_name: kibana
     ports:
-      - 5601:5601
+      - 127.0.0.1:5601:5601
     environment:
       - SERVER_NAME=kibana.local
       - ELASTICSEARCH_URL=http://elasticsearch01:9200
