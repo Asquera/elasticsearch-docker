@@ -11,16 +11,19 @@ filebeat.inputs:
   paths:
     - /var/log/filebeat.log
 
-output.redis:
-  hosts:
-    - "redis:6379"
-  key: "filebeat"
-  keys:
-    - key: "blubb"
-      when.contains:
-        message: "BLUBB"
-  db: 0
-  timeout: 5
+output.logstash:
+  hosts: [127.0.0.1:5044]
+
+# output.redis:
+#   hosts:
+#     - "redis:6379"
+#   key: "filebeat"
+#   keys:
+#     - key: "blubb"
+#       when.contains:
+#         message: "BLUBB"
+#   db: 0
+#   timeout: 5
 
 setup.kibana.host: "kibana:5601"
 
