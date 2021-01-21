@@ -1,7 +1,7 @@
 network.host: 0.0.0.0
 
 node.name: elasticsearch02
-node.master: false
+node.master: true
 node.data: true
 node.ingest: true
 
